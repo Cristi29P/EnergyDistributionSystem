@@ -207,6 +207,26 @@ public final class Simulation {
             }
         }
     }
+
+    private void statusCreator(int turnNumber, ArrayList<Producer> producersDB) {
+        for (Producer producer: producersDB) {
+            ArrayList<Integer> ids = new ArrayList<>();
+            for (Distributor distributor : producer.getAssignedDistributors()) {
+                ids.add(distributor.getId());
+            }
+            Collections.sort(ids);
+            producer.getStatuses().add(new Status(turnNumber + 1, ids));
+        }
+    }
+
+    private void doProducerChanges(Distributor distributor) {
+        distributor.getAssignedProducers().forEach(producer -> {
+            producer.setNumberOfDistributors(producer.getNumberOfDistributors() - 1);
+            producer.getAssignedDistributors().remove(distributor);
+            producer.deleteObserver(distributor);
+        });
+    }
+
     /**
      * Runs the initial phase of the simulation a.k.a round zero
      * @param consumersDB list of consumers
@@ -272,11 +292,7 @@ public final class Simulation {
 
         for (Distributor distributor : distributorsDB) {
             if (distributor.isHasChanged()) {
-                for (Producer producer : distributor.getAssignedProducers()) {
-                    producer.setNumberOfDistributors(producer.getNumberOfDistributors() - 1);
-                    producer.getAssignedDistributors().remove(distributor);
-                    producer.deleteObserver(distributor);
-                }
+                doProducerChanges(distributor);
 
                 producersAux.sort(strategyPicker(distributor));
                 distributor.getAssignedProducers().clear();
@@ -285,18 +301,6 @@ public final class Simulation {
                 distributor.setHasChanged(false);
             }
         }
-
         statusCreator(turnNumber, producersDB);
-    }
-
-    private void statusCreator(int turnNumber, ArrayList<Producer> producersDB) {
-        for (Producer producer: producersDB) {
-            ArrayList<Integer> ids = new ArrayList<>();
-            for (Distributor distributor : producer.getAssignedDistributors()) {
-                ids.add(distributor.getId());
-            }
-            Collections.sort(ids);
-            producer.getStatuses().add(new Status(turnNumber + 1, ids));
-        }
     }
 }
