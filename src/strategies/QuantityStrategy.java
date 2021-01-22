@@ -8,7 +8,7 @@ public final class QuantityStrategy implements Strategy {
         if ((o1.getEnergyPerDistributor() - o2.getEnergyPerDistributor()) != 0) {
             return Integer.compare(o2.getEnergyPerDistributor(), o1.getEnergyPerDistributor());
         } else {
-            return Integer.compare(o1.getId(), o2.getId());
+            
         }
     }
 }

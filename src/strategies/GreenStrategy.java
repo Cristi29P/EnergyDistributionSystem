@@ -9,8 +9,6 @@ public final class GreenStrategy implements Strategy {
             return -1;
         } else if (!o1.getEnergyType().isRenewable() && o2.getEnergyType().isRenewable()) {
             return 1;
-        } else {
-            return new PriceStrategy().compare(o1, o2);
         }
     }
 }
