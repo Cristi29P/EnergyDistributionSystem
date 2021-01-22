@@ -286,6 +286,10 @@ public final class Simulation {
             }
         }
 
+        statusCreator(turnNumber, producersDB);
+    }
+
+    private void statusCreator(int turnNumber, ArrayList<Producer> producersDB) {
         for (Producer producer: producersDB) {
             ArrayList<Integer> ids = new ArrayList<>();
             for (Distributor distributor : producer.getAssignedDistributors()) {
