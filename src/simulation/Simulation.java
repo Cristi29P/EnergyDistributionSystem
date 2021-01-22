@@ -253,6 +253,15 @@ public final class Simulation {
         bankruptcyChecker(consumersDB, distributorsDB);
     }
 
+    private void applyProducerChanges(int turnNumber, ArrayList<Producer> producersDB,
+                                      ArrayList<MonthlyUpdateInput> changes) {
+        if (!changes.get(turnNumber).getProducerChanges().isEmpty()) {
+            for (ProducerChange aux : changes.get(turnNumber).getProducerChanges()) {
+                producersDB.get(aux.getId()).update(aux.getEnergyPerDistributor());
+            }
+        }
+    }
+
     /**
      * Simulates a single run based on the current state of the databases
      * @param turnNumber current round/month
@@ -282,11 +291,7 @@ public final class Simulation {
         monthlySubtract(distributorsDB);
         bankruptcyChecker(consumersDB, distributorsDB);
 
-        if (!changes.get(turnNumber).getProducerChanges().isEmpty()) {
-            for (ProducerChange aux : changes.get(turnNumber).getProducerChanges()) {
-                 producersDB.get(aux.getId()).update(aux.getEnergyPerDistributor());
-            }
-        }
+        applyProducerChanges(turnNumber, producersDB, changes);
 
         ArrayList<Producer> producersAux = new ArrayList<>(producersDB);
 
