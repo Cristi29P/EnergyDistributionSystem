@@ -1,0 +1,63 @@
+Paris Cristian-Tanase 321CA
+
+The simulation begins in the main class where we use an objectMapper to precisely
+read the input from the json files and map them to objects specifically created
+for them. Once the input object is created, we create the factories associated
+with the three entities of this game and parse them to the loader object.
+
+The loader object extracts the data from the input object, creates new entities
+based on that data using the factories and stores them into ArrayLists for 
+consumers, distributors and producers. Once the input and loading stage is finished,
+we enter the main game loop.
+
+We start off by creating a simulation object and proceed to simulating round zero.
+Once the round zero is simulated, we step into the actual rounds simulations.
+After each stage of the simulation, we constantly check if all the distributors
+became bankrupt or not.
+
+Stepping into the actual simulation class, a round begins by applying the monthly
+changes (new consumers and new price)associated with it and recomputing the
+distributor with the lowest monthly price. The next step is the creation of new
+contracts for the new consumers and for those whose contracts came to an end. The
+consumers pay the contract price(if they have enough money so they do not become
+bankrupt), the distributors pay the infrastructure costs and at the end of each
+round we check which consumers should be kicked out. This step is then followed
+by the producers' changes and checking if there is any change regarding the current
+producers. If there is a change, we reapply the strategy pattern and proceed to next
+round and add a new monthly stat record to each producer.
+
+In the end, we create an output object that is precisely filled with all the
+data contained into the databases and pass it to a writer object.
+
+
+SINGLETON AND FACTORY:
+
+In this phase of the project, the singleton and factory design patterns were used
+simultaneously in the ConsumerFactory, DistributorFactory and ProducerFactory classes. 
+The purpose was to create only one instance of each factory. In order to apply the singleton
+pattern to the already existing factory classes, a getInstance method was created.
+My singleton pattern employs lazy initialization and is thread safe because it uses
+the double checked locking principle and a synchronized block to make sure that only
+one singleton instance is created and only one thread can execute this method at a time.
+
+
+OBSERVER AND STRATEGY:
+
+These design patterns were added in the second phase of the project and are mainly used
+to pick the best producers according to each distributors' criteria. The observer pattern
+was used to track the changes of each producer and notifiy its distributors accordingly.
+(Each producer is an Observable object and each distributor is an Observer object). Once
+a change is brought up by a monthly update, the distributors are notified and reapply their
+strategies.
+For the strategy pattern, a strategy interface is employed and each of the strategy classes
+implements the respective interface. In the main simulation class, the strategy object is 
+passed to the sorter.
+
+
+
+
+
+
+
+
+

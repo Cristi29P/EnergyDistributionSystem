@@ -290,7 +290,6 @@ public final class Simulation {
         consumerPayer(consumersDB, distributorsDB);
         monthlySubtract(distributorsDB);
         bankruptcyChecker(consumersDB, distributorsDB);
-
         applyProducerChanges(turnNumber, producersDB, changes);
 
         ArrayList<Producer> producersAux = new ArrayList<>(producersDB);
