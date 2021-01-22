@@ -8,7 +8,7 @@ public final class PriceStrategy implements Strategy {
         if ((o1.getPriceKW() - o2.getPriceKW() != 0)) {
             return Double.compare(o1.getPriceKW(), o2.getPriceKW());
         } else {
-
+            return new QuantityStrategy().compare(o1, o2);
         }
     }
 }
